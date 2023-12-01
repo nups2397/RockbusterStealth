@@ -1,0 +1,14 @@
+# This code showcases most popular to least popular movie genre and the revenue it generated
+
+SELECT C.name AS genre,
+COUNT(DISTINCT F.film_id) as number_of_movies,
+COUNT(DISTINCT R.rental_id) AS total_rentals,
+SUM (P.amount) AS total_revenue
+FROM film AS F
+JOIN film_category AS FC USING (film_id)
+JOIN category AS C USING (category_id)
+JOIN inventory AS I ON F.film_id = I.film_id
+JOIN rental AS R ON I.inventory_id = R.inventory_id
+JOIN payment AS P ON R.rental_id = P.rental_id  
+GROUP BY C.name
+ORDER BY total_revenue DESC
